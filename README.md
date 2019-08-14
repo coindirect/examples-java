@@ -2,7 +2,21 @@
 
 To facilitate easier integration into the Coindirect API's examples will be continually added to this repository.
 
-## Pay in example
+## Setup your API client
+```
+String apiKey = "myApiKey";
+String apiSecret = "myApiSecret";
+
+CoindirectApiClient coindirectApiClient = new CoindirectApiClient(apiKey, apiSecret);
+if(USE_SANDBOX) {
+    coindirectApiClient.setBasePath("https://api.sandbox.coindirect.com");
+    coindirectApiClient.setDebugging(true);
+}
+```
+
+
+
+### Pay in example
 ```
 PayRequest payRequest = new PayRequest();
 payRequest.setMerchantId(merchantId);
@@ -19,5 +33,7 @@ response.setHeader("Location", payment.getPayInstruction().getRedirectUrl());
 ```
 
 ### Read payment
+```
 Payment payment = paymentsApi.readPayment(payment.getUuid(), null);
+```
 
