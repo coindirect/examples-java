@@ -9,7 +9,7 @@ String apiSecret = "myApiSecret";
 
 CoindirectApiClient coindirectApiClient = new CoindirectApiClient(apiKey, apiSecret);
 if(USE_SANDBOX) {
-    coindirectApiClient.setBasePath(SANDBOX_URL);
+    coindirectApiClient.setBasePath("https://api.sandbox.coindirect.com");
     coindirectApiClient.setDebugging(true);
 }
 ```
