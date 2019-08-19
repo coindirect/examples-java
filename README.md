@@ -27,13 +27,13 @@ payRequest.setExpiryMinutes(90);
 payRequest.setAmount(new BigDecimal("250"));
 payRequest.setReturnUrl("https://www.google.com/?myPaymentRef=${myUniqueReference}");
 
-Payment payment = paymentsApi.requestPayment(payRequest);
+Payment payment = paymentsApi.paymentCreate(payRequest);
 
 response.setHeader("Location", payment.getPayInstruction().getRedirectUrl());
 ```
 
 ### Read payment
 ```
-Payment payment = paymentsApi.readPayment(payment.getUuid(), null);
+Payment payment = paymentsApi.paymentRead(payment.getUuid(), null);
 ```
 
