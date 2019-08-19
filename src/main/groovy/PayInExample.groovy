@@ -2,6 +2,7 @@ import ch.qos.logback.classic.Level
 import groovy.util.logging.Slf4j
 import org.coindirect.api.BusinessApi
 import org.coindirect.api.PaymentsApi
+import org.coindirect.api.PaymentsMerchantApi
 import org.coindirect.api.WalletsApi
 import org.coindirect.api.invoker.ApiException
 import org.coindirect.api.invoker.CoindirectApiClient
@@ -45,13 +46,13 @@ class PayInExample {
              * explicitly, this simply selects the first one available as a default
              */
             BusinessApi businessApi = new BusinessApi(coindirectApiClient);
-            List<PublicMerchant> merchantList = businessApi.listMerchantIds();
+            List<PublicMerchant> merchantList = businessApi.merchantIdList();
             if(merchantList.size() > 0) {
                 merchantId = merchantList.get(0).getId();
             }
         }
 
-        PaymentsApi paymentsApi = new PaymentsApi(coindirectApiClient);
+        PaymentsMerchantApi paymentsMerchantApi = new PaymentsMerchantApi(coindirectApiClient);
 
         String myUniqueReference = UUID.randomUUID().toString();
 
@@ -65,12 +66,12 @@ class PayInExample {
         payRequest.setReturnUrl("https://www.google.com/?myPaymentRef=${myUniqueReference}");
 
         try {
-            Payment payment = paymentsApi.requestPayment(payRequest);
+            Payment payment = paymentsMerchantApi.paymentCreate(payRequest);
 
             log.debug("Created payment ${payment}");
             log.debug("-- now redirect to ${payment.getPayInstruction().getRedirectUrl()}");
 
-            payment = paymentsApi.readPayment(payment.getUuid(), null);
+            payment = paymentsMerchantApi.paymentRead(payment.getUuid(), null);
 
             log.debug("Payment status is now ${payment.getStatus()}");
 
